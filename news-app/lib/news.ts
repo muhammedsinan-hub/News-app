@@ -1,25 +1,40 @@
 export async function getNews() {
-  const res = await fetch(
-    "http://localhost:3000/api/news",
-    { cache: "no-store" }
-  );
+  try {
+    const res = await fetch("/api/news", {
+      cache: "no-store",
+    });
 
-  const data = await res.json();
+    if (!res.ok) {
+      throw new Error("Failed to fetch news");
+    }
 
-  return data.results;
+    const data = await res.json();
+
+    return data?.results || [];
+  } catch (error) {
+    console.error("getNews error:", error);
+    return [];
+  }
 }
 
-export async function getCategoryNews(
-  category: string
-) {
-  const res = await fetch(
-    `http://localhost:3000/api/news?category=${category}`,
-    {
-      cache: "no-store",
+export async function getCategoryNews(category: string) {
+  try {
+    const res = await fetch(
+      `/api/news?category=${category}`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch category news");
     }
-  );
 
-  const data = await res.json();
+    const data = await res.json();
 
-  return data.results;
+    return data?.results || [];
+  } catch (error) {
+    console.error("getCategoryNews error:", error);
+    return [];
+  }
 }
