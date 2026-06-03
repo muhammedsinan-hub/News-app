@@ -1,18 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const apiKey = process.env.NEWSDATA_API_KEY;
+  try {
+    const apiKey = process.env.NEWSDATA_API_KEY;
 
-  const category =
-    req.nextUrl.searchParams.get("category");
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "Missing API Key" },
+        { status: 500 }
+      );
+    }
 
-  const url = category
-    ? `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${category}&language=en`
-    : `https://newsdata.io/api/1/news?apikey=${apiKey}&country=in&language=en`;
+    const category = req.nextUrl.searchParams.get("category");
 
-  const res = await fetch(url);
+    const url = category
+      ? `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${category}&language=en`
+      : `https://newsdata.io/api/1/news?apikey=${apiKey}&country=in&language=en`;
 
-  const data = await res.json();
+    const res = await fetch(url);
 
-  return NextResponse.json(data);
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: "Failed to fetch news API" },
+        { status: res.status }
+      );
+    }
+
+    const data = await res.json();
+
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Server error" },
+      { status: 500 }
+    );
+  }
 }
