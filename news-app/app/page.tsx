@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-6 py-6">
-      <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-5">
+      <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-5 blink-heading">
         LATEST HEADLINES
       </h1>
 

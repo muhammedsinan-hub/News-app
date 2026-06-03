@@ -11,8 +11,6 @@ export default function CategoryPage({
   const [news, setNews] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!params?.category) return;
-
     async function load() {
       const res = await fetch(
         `/api/news?category=${params.category}`
@@ -23,7 +21,7 @@ export default function CategoryPage({
     }
 
     load();
-  }, [params?.category]);
+  }, [params.category]);
 
   return (
     <main className="max-w-7xl mx-auto p-6">
@@ -44,7 +42,7 @@ export default function CategoryPage({
           ))
         ) : (
           <p className="text-center col-span-3 text-gray-500">
-            Loading news...
+            Loading...
           </p>
         )}
       </div>
