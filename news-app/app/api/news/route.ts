@@ -10,22 +10,8 @@ export async function GET(req: NextRequest) {
 
     const category = req.nextUrl.searchParams.get("category");
 
-    const allowed = [
-      "business",
-      "sports",
-      "technology",
-      "health",
-      "science",
-      "entertainment",
-    ];
-
-    const safeCategory =
-      category && allowed.includes(category)
-        ? category
-        : undefined;
-
-    const url = safeCategory
-      ? `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${safeCategory}&language=en`
+    const url = category
+      ? `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${category}&language=en`
       : `https://newsdata.io/api/1/news?apikey=${apiKey}&country=in&language=en`;
 
     const res = await fetch(url);

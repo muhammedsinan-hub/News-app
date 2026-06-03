@@ -9,28 +9,44 @@ export default function CategoryPage({
   params: { category: string };
 }) {
   const [news, setNews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const category = params?.category || "";
 
   useEffect(() => {
     async function load() {
-      const res = await fetch(
-        `/api/news?category=${params.category}`
-      );
+      try {
+        setLoading(true);
 
-      const data = await res.json();
-      setNews(data.results || []);
+        const res = await fetch(
+          `/api/news?category=${category}`
+        );
+
+        const data = await res.json();
+
+        setNews(data?.results || []);
+      } catch (error) {
+        setNews([]);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    load();
-  }, [params.category]);
+    if (category) load();
+  }, [category]);
 
   return (
     <main className="max-w-7xl mx-auto p-6">
       <h1 className="text-4xl font-bold text-center mb-6 capitalize text-blue-500">
-        {params.category} News
+        {category} News
       </h1>
 
       <div className="grid md:grid-cols-3 gap-6">
-        {news.length > 0 ? (
+        {loading ? (
+          <p className="text-center col-span-3 text-gray-500">
+            Loading...
+          </p>
+        ) : news.length > 0 ? (
           news.map((item) => (
             <NewsCard
               key={item.article_id}
@@ -42,7 +58,7 @@ export default function CategoryPage({
           ))
         ) : (
           <p className="text-center col-span-3 text-gray-500">
-            Loading...
+            No news found
           </p>
         )}
       </div>
