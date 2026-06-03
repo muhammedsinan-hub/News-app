@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import NewsCard from "@/components/NewsCard";
 
 export default function CategoryPage({
   params,
 }: {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }) {
+  const { category } = use(params);
+
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,12 +17,10 @@ export default function CategoryPage({
     async function loadNews() {
       try {
         const res = await fetch(
-          `/api/news?category=${params.category}`
+          `/api/news?category=${category}`
         );
 
         const data = await res.json();
-
-        console.log(data);
 
         setNews(data.results || []);
       } catch (error) {
@@ -31,21 +31,17 @@ export default function CategoryPage({
     }
 
     loadNews();
-  }, [params.category]);
+  }, [category]);
 
   return (
     <main className="max-w-7xl mx-auto p-6">
-      <h1 className="text-4xl font-bold text-center mb-8 capitalize text-blue-500">
-        {params.category} News
+      <h1 className="text-4xl font-bold text-center mb-6 capitalize text-blue-500">
+        {category} News
       </h1>
 
       {loading ? (
-        <p className="text-center text-white">
+        <p className="text-center text-gray-500">
           Loading...
-        </p>
-      ) : news.length === 0 ? (
-        <p className="text-center text-red-500">
-          No news found
         </p>
       ) : (
         <div className="grid md:grid-cols-3 gap-6">
@@ -54,7 +50,7 @@ export default function CategoryPage({
               key={item.article_id}
               title={item.title}
               description={item.description}
-              image={item.image_url || "/noimage.png"}
+              image={item.image_url}
               link={item.link}
             />
           ))}
