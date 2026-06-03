@@ -8,24 +8,22 @@ export default function CategoryPage({
 }: {
   params: { category: string };
 }) {
-  const { category } = params;
-
   const [news, setNews] = useState<any[]>([]);
 
   useEffect(() => {
-    async function loadNews() {
-      const res = await fetch(`/api/news?category=${category}`);
+    async function load() {
+      const res = await fetch(`/api/news?category=${params.category}`);
       const data = await res.json();
       setNews(data.results || []);
     }
 
-    loadNews();
-  }, [category]);
+    load();
+  }, [params.category]);
 
   return (
     <main className="max-w-7xl mx-auto p-6">
       <h1 className="text-4xl font-bold text-center mb-6 capitalize text-blue-500">
-        {category} News
+        {params.category} News
       </h1>
 
       <div className="grid md:grid-cols-3 gap-6">
