@@ -1,29 +1,47 @@
-import { getNews } from "@/lib/news";
+"use client";
+
+import { useEffect, useState } from "react";
 import NewsCard from "@/components/NewsCard";
 
-export default async function Home() {
-  const news = await getNews();
+export default function Home() {
+  const [news, setNews] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      const res = await fetch("/api/news");
+      const data = await res.json();
+      setNews(data.results || []);
+    }
+
+    load();
+  }, []);
 
   return (
-    <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 overflow-hidden">
-      <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-5 blink-heading">
+    <main className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+      <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-5">
         LATEST HEADLINES
       </h1>
 
-      <p className="text-center text-white mb-12 text-sm md:text-base">
-        Stay updated with breaking news from around the world !
+      <p className="text-center text-white mb-12">
+        Stay updated with breaking news
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {news.slice(0, 12).map((item: any) => (
-          <NewsCard
-            key={item.article_id}
-            title={item.title}
-            description={item.description}
-            image={item.image_url}
-            link={item.link}
-          />
-        ))}
+      <div className="grid md:grid-cols-3 gap-6">
+        {news.length > 0 ? (
+          news.map((item) => (
+            <NewsCard
+              key={item.article_id}
+              title={item.title}
+              description={item.description}
+              image={item.image_url}
+              link={item.link}
+            />
+          ))
+        ) : (
+          <p className="text-center col-span-3 text-gray-500">
+            Loading...
+          </p>
+        )}
       </div>
     </main>
   );
