@@ -11,57 +11,55 @@ export default function CategoryPage({
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const category = params?.category || "";
-
   useEffect(() => {
-    async function load() {
+    async function loadNews() {
       try {
-        setLoading(true);
-
         const res = await fetch(
-          `/api/news?category=${category}`
+          `/api/news?category=${params.category}`
         );
 
         const data = await res.json();
 
-        setNews(data?.results || []);
+        console.log(data);
+
+        setNews(data.results || []);
       } catch (error) {
-        setNews([]);
+        console.error(error);
       } finally {
         setLoading(false);
       }
     }
 
-    if (category) load();
-  }, [category]);
+    loadNews();
+  }, [params.category]);
 
   return (
     <main className="max-w-7xl mx-auto p-6">
-      <h1 className="text-4xl font-bold text-center mb-6 capitalize text-blue-500">
-        {category} News
+      <h1 className="text-4xl font-bold text-center mb-8 capitalize text-blue-500">
+        {params.category} News
       </h1>
 
-      <div className="grid md:grid-cols-3 gap-6">
-        {loading ? (
-          <p className="text-center col-span-3 text-gray-500">
-            Loading...
-          </p>
-        ) : news.length > 0 ? (
-          news.map((item) => (
+      {loading ? (
+        <p className="text-center text-white">
+          Loading...
+        </p>
+      ) : news.length === 0 ? (
+        <p className="text-center text-red-500">
+          No news found
+        </p>
+      ) : (
+        <div className="grid md:grid-cols-3 gap-6">
+          {news.map((item: any) => (
             <NewsCard
               key={item.article_id}
               title={item.title}
               description={item.description}
-              image={item.image_url}
+              image={item.image_url || "/noimage.png"}
               link={item.link}
             />
-          ))
-        ) : (
-          <p className="text-center col-span-3 text-gray-500">
-            No news found
-          </p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </main>
   );
 }
