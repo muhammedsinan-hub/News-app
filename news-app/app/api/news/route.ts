@@ -28,7 +28,9 @@ export async function GET(req: NextRequest) {
 
     const data = await res.json();
 
-    return NextResponse.json(data);
+    return NextResponse.json({
+      results: data.results || [],
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Server error" },
