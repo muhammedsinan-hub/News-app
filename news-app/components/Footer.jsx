@@ -5,7 +5,7 @@ export default function Footer() {
 
         <div>
          <h2 className="text-3xl font-extrabold tracking-tight">
-  <span className="text-blue-600">News</span>
+  <span className="text-red-500">News</span>
   <span className="text-black">Hub</span>
 </h2>
 

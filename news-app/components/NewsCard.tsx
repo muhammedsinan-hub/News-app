@@ -49,7 +49,7 @@ export default function NewsCard({
           </p>
 
           <div className="mt-4 flex justify-center">
-            <button className="px-5 py-2 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-700 transition-all duration-300">
+            <button className="px-5 py-2 bg-red-500 text-white rounded-full font-semibold hover:bg-red-700 transition-all duration-300">
               Read More →
             </button>
           </div>

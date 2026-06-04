@@ -34,8 +34,8 @@ export default function CategoryPage({
   }, [category]);
 
   return (
-    <main className="max-w-7xl mx-auto p-6">
-      <h1 className="text-4xl font-bold text-center mb-6 capitalize text-blue-500">
+<main className="max-w-7xl mx-auto p-6 min-h-screen">
+        <h1 className="text-4xl font-bold text-center mb-6 capitalize text-red-500">
         {category} News
       </h1>
 

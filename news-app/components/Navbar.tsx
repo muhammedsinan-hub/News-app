@@ -15,26 +15,26 @@ export default function Navbar() {
       href="/"
       className="text-3xl font-extrabold tracking-tight group inline-block"
     >
-      <span className="text-blue-500 group-hover:text-black transition-colors duration-500">
+      <span className="text-red-500 group-hover:text-black transition-colors duration-500">
         News
       </span>
 
-      <span className="text-black group-hover:text-blue-500 transition-colors duration-300">
+      <span className="text-black group-hover:text-red-500 transition-colors duration-300">
         Hub
       </span>
     </Link>
 
         <div className="hidden md:flex gap-6 font-medium text-black">
-          <Link className="text-blue-500 hover:text-black transition-all duration-300" href="/">
+          <Link className="text-red-500 hover:text-black transition-all duration-300" href="/">
             Home
           </Link>
-          <Link className="hover:text-blue-500 transition-all duration-300" href="/news/sports">
+          <Link className="hover:text-red-500 transition-all duration-300" href="/news/sports">
             Sports
           </Link>
-          <Link className="hover:text-blue-500 transition-all duration-300" href="/news/business">
+          <Link className="hover:text-red-500 transition-all duration-300" href="/news/business">
             Business
           </Link>
-          <Link className="hover:text-blue-500 transition-all duration-300" href="/news/technology">
+          <Link className="hover:text-red-500 transition-all duration-300" href="/news/technology">
             Technology
           </Link>
         </div>
